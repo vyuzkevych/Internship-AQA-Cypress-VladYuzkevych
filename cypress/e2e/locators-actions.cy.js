@@ -1,25 +1,16 @@
 import { faker } from '@faker-js/faker';
 
-/**
- * have to write this piece of code below, 
- * because without it test was failing with auncaught exception on this site
- */
-Cypress.on('uncaught:exception', (err, runnable) => {
-  return false;
-});
-
+let firstName = faker.person.firstName();
+let lastName = faker.person.lastName();
+let email = faker.internet.email();
+let mobile = faker.string.numeric({length: {min: 10, max: 10}});
+let address = faker.location.streetAddress();
 
 describe("cypress home work 1", () => {
   it("Fill and verify Student Registration Form", () => {
     cy.visit("https://demoqa.com/automation-practice-form/");
 
     // fill the form
-    let firstName = faker.person.firstName();
-    let lastName = faker.person.lastName();
-    let email = faker.internet.email();
-    let mobile = faker.string.numeric({length: {min: 10, max: 10}});
-    let address = faker.location.streetAddress();
-
     cy.get("#firstName").type(firstName);
     cy.get("#lastName").type(lastName);
     cy.get("#userEmail").type(email);
@@ -47,7 +38,7 @@ describe("cypress home work 1", () => {
     cy.get("tbody > tr:nth-child(4) > td:last-child")
       .should("have.text", mobile);
     cy.get("tbody > tr:nth-child(5) > td:last-child")
-      .should("have.text", "13 August,2024");
+      .should("have.text", "16 August,2024");
     cy.get("tbody > tr:nth-child(6) > td:last-child")
       .should("have.text", "Maths");
     cy.get("tbody > tr:nth-child(7) > td:last-child")
