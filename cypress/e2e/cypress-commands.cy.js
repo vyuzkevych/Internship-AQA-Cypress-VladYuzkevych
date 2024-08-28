@@ -1,13 +1,10 @@
 import { mainPage } from "../page-objects/mainPage.js";
 import { elementsPage } from "../page-objects/elementsPage.js";
-import { WebTablesPage } from "../page-objects/webTablesPage.js";
+import { webTablesPage } from "../page-objects/webTablesPage.js";
 
 describe("cypress home work 3 | Automate web table with POM", () => {
-    let webTablesPage;
 
     beforeEach(() => {
-        webTablesPage = new WebTablesPage();
-
         cy.visit(mainPage.data.url);
         mainPage.actions.clickElementsPage();
         elementsPage.actions.clickwebTableBtn();

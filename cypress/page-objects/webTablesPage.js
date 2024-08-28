@@ -1,5 +1,5 @@
 
-export class WebTablesPage {
+class WebTablesPage {
 
     get = {
         tableCell: () => cy.get(".rt-td"),
@@ -77,3 +77,5 @@ export class WebTablesPage {
         }
     }
 }
+
+export const webTablesPage = new WebTablesPage();
