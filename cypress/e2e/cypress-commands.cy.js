@@ -1,131 +1,111 @@
+import { mainPage } from "../page-objects/mainPage.js";
+import { elementsPage } from "../page-objects/elementsPage.js";
+import { webTablesPage } from "../page-objects/webTablesPage.js";
 
-describe("cypress home work 2 | Automate web table", () => {
+describe("cypress home work 3 | Automate web table with POM", () => {
+
     beforeEach(() => {
-        cy.visit("https://demoqa.com/webtables");
+        cy.visit(mainPage.data.url);
+        mainPage.actions.clickElementsPage();
+        elementsPage.actions.clickwebTableBtn();
     })
 
     it("Create a new user and verify that user was added", () => {
         cy.fixture('userData.json').then((user) => {
-            cy.addUser(user);
-            cy.get(".rt-td").should("contain.text", user.firstName)
+            webTablesPage.action.addUser(user)
+            webTablesPage.get.tableCell().should("contain.text", user.firstName)
                 .and("contain.text", user.lastName)
                 .and("contain.text", user.email);
         });
     });
     
     it("Edit user and check that each field is editable", () => {
-        cy.get("#edit-record-1").click({ force: true });
+        webTablesPage.action.clickOnEditBtnFirstRow();
         cy.fixture('userData.json').then((user) => {
-            cy.get("#firstName").clear().type(user.firstName);
-            cy.get('#lastName').clear().type(user.lastName);
-            cy.get('#userEmail').clear().type(user.email);
-            cy.get('#age').clear().type(user.age);
-            cy.get('#salary').clear().type(user.salary);
-            cy.get('#department').clear().type(user.department);
-            cy.get('#submit').click();
+            webTablesPage.action.enterFirstName(user.firstName);
+            webTablesPage.action.enterLastName(user.lastName);
+            webTablesPage.action.enterEmail(user.email);
+            webTablesPage.action.enterAge(user.age);
+            webTablesPage.action.enterSalary(user.salary);
+            webTablesPage.action.enterDepartment(user.department);
+            webTablesPage.action.clickOnSubmitBtn();
 
-            cy.get(".rt-td").should("contain.text", user.firstName)
+            webTablesPage.get.tableCell().should("contain.text", user.firstName)
                 .and("contain.text", user.lastName)
                 .and("contain.text", user.email);
         });
     });
 
     it("Delete user from the table and check that user was deleted", () => {
-        cy.get("#delete-record-2").click({ force: true });
-        cy.get(".rt-td").should("not.contain.text", "alden@example.com");
+        webTablesPage.action.clickOnDeleteBtnSecondRow();
+        webTablesPage.get.tableCell().should("not.contain.text", "alden@example.com");
     });
 
     it("Check searching feature", () => {
-        cy.get("#searchBox").type("Kierra");
-        cy.get(".rt-tr-group").should(($p) => {
-            expect($p.first()).to.contain("kierra@example.com");
-            expect($p.eq(1)).to.not.contain.text();
+        webTablesPage.action.enterValueSearchField("Kierra");
+        webTablesPage.get.tableRow().should(($row) => {
+            expect($row.first()).to.contain("kierra@example.com");
+            expect($row.eq(1)).to.not.contain.text();
         });
     });
 
     it("Sort table by First Name", () => {
-        cy.get(".rt-resizable-header-content").contains("First Name").click();
+        webTablesPage.action.clickOnTableHeaderFirstName();
         cy.wait(500);
-        cy.get(".rt-tbody .rt-tr > div:nth-child(1)").then(($vals) => {
-            const names = []
-            $vals.each((index, $val) => {
-                names.push($val.innerText);
-            })
+        
+        const names = webTablesPage.action.getArrayOfValues(webTablesPage.get.tableFirstNameColumn());
+        const sorted = webTablesPage.action.sortStrings(names);
 
-            let sorted = [...names].sort();
-            expect(names).to.deep.equal(sorted);
-        });
+        expect(names).to.deep.equal(sorted);
     });
 
     it("Sort table by Last Name", () => {
-        cy.get(".rt-resizable-header-content").contains("Last Name").click();
+        webTablesPage.action.clickOnTableHeaderLastName();
         cy.wait(500);
-        cy.get(".rt-tbody .rt-tr > div:nth-child(2)").then(($vals) => {
-            const names = []
-            $vals.each((index, $val) => {
-                names.push($val.innerText);
-            })
+        
+        const names = webTablesPage.action.getArrayOfValues(webTablesPage.get.tableLastNameColumn());
+        const sorted = webTablesPage.action.sortStrings(names);
 
-            let sorted = [...names].sort();
-            expect(names).to.deep.equal(sorted);
-        });
+        expect(names).to.deep.equal(sorted);
     });
 
     it("Sort table by Age", () => {
-        cy.get(".rt-resizable-header-content").contains("Age").click();
+        webTablesPage.action.clickOnTableHeaderAge();
         cy.wait(500);
-        cy.get(".rt-tbody .rt-tr > div:nth-child(3)").then(($vals) => {
-            const ages = []
-            $vals.each((index, $val) => {
-                ages.push($val.innerText);
-            })
+        
+        const ages = webTablesPage.action.removeEmptyLines(webTablesPage.get.tableAgeColumn());
+        const sorted = webTablesPage.action.sortNumbers(ages);
 
-            let ageWithoutEmtyStrings = ages.filter(str => str.trim() !== "");
-            let sorted = [...ageWithoutEmtyStrings].sort((a, b) => a - b);
-            expect(ageWithoutEmtyStrings).to.deep.equal(sorted);
-        });
+        expect(ages).to.deep.equal(sorted);
     });
 
     it("Sort table by Email", () => {
-        cy.get(".rt-resizable-header-content").contains("Email").click();
+        webTablesPage.action.clickOnTableHeaderEmail();
         cy.wait(500);
-        cy.get(".rt-tbody .rt-tr > div:nth-child(4)").then(($vals) => {
-            const emails = []
-            $vals.each((index, $val) => {
-                emails.push($val.innerText);
-            })
 
-            let sorted = [...emails].sort();
-            expect(emails).to.deep.equal(sorted);
-        });
+        const emails = webTablesPage.action.getArrayOfValues(webTablesPage.get.tableEmailColumn());
+        const sorted = webTablesPage.action.sortStrings(emails);
+
+        expect(emails).to.deep.equal(sorted);
     });
 
     it("Sort table by Salary", () => {
-        cy.get(".rt-resizable-header-content").contains("Salary").click();
+        webTablesPage.action.clickOnTableHeaderSalary();
         cy.wait(500);
-        cy.get(".rt-tbody .rt-tr > div:nth-child(5)").then(($vals) => {
-            const salaries = []
-            $vals.each((index, $val) => {
-                salaries.push($val.innerText);
-            })
 
-            let salariesWithoutEmtyStrings = salaries.filter(str => str.trim() !== "");
-            let sorted = [...salariesWithoutEmtyStrings].sort((a, b) => a - b);
-            expect(salariesWithoutEmtyStrings).to.deep.equal(sorted);
-        });
+        const salaryWithoutEmptyLines = webTablesPage.action.removeEmptyLines(webTablesPage.get.tableSalaryColumn());
+        const sorted = webTablesPage.action.sortNumbers(salaryWithoutEmptyLines);
+
+        expect(salaryWithoutEmptyLines).to.deep.equal(sorted);
     });
 
     it("Sort table by Department", () => {
-        cy.get(".rt-resizable-header-content").contains("Department").click();
+        webTablesPage.action.clickOnTableHeaderDepartment();
         cy.wait(500);
-        cy.get(".rt-tbody .rt-tr > div:nth-child(6)").then(($vals) => {
-            const deps = []
-            $vals.each((index, $val) => {
-                deps.push($val.innerText);
-            })
+        
+        const deps = webTablesPage.action.getArrayOfValues(webTablesPage.get.tableDepartmentColumn());
+        const sorted = webTablesPage.action.sortStrings(deps);
 
-            let sorted = [...deps].sort();
-            expect(deps).to.deep.equal(sorted);
-        });
+        expect(deps).to.deep.equal(sorted);
     });
 });
