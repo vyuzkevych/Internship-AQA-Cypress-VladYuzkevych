@@ -29,7 +29,7 @@ export class WebTablesPage {
     }
 
     action = {
-        addUser: (u) => cy.addUser(u),
+        addUser: (user) => cy.addUser(user),
         clickOnEditBtnFirstRow: () => this.get.editBtnFirstRow().click({ force : true }),
         clickOnDeleteBtnSecondRow: () => this.get.deleteBtnSecondRow().click({ force : true}),
         enterValueSearchField: (val) => this.get.searchField().type(val),

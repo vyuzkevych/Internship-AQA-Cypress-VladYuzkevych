@@ -1,5 +1,5 @@
 
-export class ElementsPage {
+class ElementsPage {
 
     get = {
         webTableBtn: () => cy.get(".text").contains("Web Tables")
@@ -10,3 +10,5 @@ export class ElementsPage {
     }
     
 }
+
+export const elementsPage = new ElementsPage();

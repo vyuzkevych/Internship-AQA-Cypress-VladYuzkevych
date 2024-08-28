@@ -1,13 +1,11 @@
-import { MainPage } from "../page-objects/mainPage.js";
-import { ElementsPage } from "../page-objects/elementsPage.js";
+import { mainPage } from "../page-objects/mainPage.js";
+import { elementsPage } from "../page-objects/elementsPage.js";
 import { WebTablesPage } from "../page-objects/webTablesPage.js";
 
 describe("cypress home work 3 | Automate web table with POM", () => {
     let webTablesPage;
 
     beforeEach(() => {
-        const mainPage = new MainPage();
-        const elementsPage = new ElementsPage();
         webTablesPage = new WebTablesPage();
 
         cy.visit(mainPage.data.url);
@@ -48,9 +46,9 @@ describe("cypress home work 3 | Automate web table with POM", () => {
 
     it("Check searching feature", () => {
         webTablesPage.action.enterValueSearchField("Kierra");
-        webTablesPage.get.tableRow().should(($p) => {
-            expect($p.first()).to.contain("kierra@example.com");
-            expect($p.eq(1)).to.not.contain.text();
+        webTablesPage.get.tableRow().should(($row) => {
+            expect($row.first()).to.contain("kierra@example.com");
+            expect($row.eq(1)).to.not.contain.text();
         });
     });
 

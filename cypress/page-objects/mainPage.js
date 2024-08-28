@@ -1,5 +1,5 @@
 
-export class MainPage {
+class MainPage {
 
     data = {
         url: "https://demoqa.com/"
@@ -14,3 +14,5 @@ export class MainPage {
     }
     
 }
+
+export const mainPage = new MainPage();
