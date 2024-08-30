@@ -6,7 +6,7 @@ import userData from "../test-data/userData";
 // also becouse of this i creating, logging in and setting token in 'before' hook
 
 
-describe("cypress home work 3", () => {
+describe("HM_Cypress_L19. Request, intercept", () => {
     let token;
 
     // creating user
