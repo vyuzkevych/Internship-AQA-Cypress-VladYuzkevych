@@ -10,8 +10,6 @@ module.exports = defineConfig({
     },
     env: {
       baseUrl: "https://bookcart.azurewebsites.net/",
-      userName: "testUser123",
-      password: ".2[~D)VnICfkB?IY~xq}>;"
     }
   },
 });

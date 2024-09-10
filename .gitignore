@@ -7,3 +7,4 @@ cypress/logs
 .vscode
 .env
 jsconfig.json
+cypress.env.json
