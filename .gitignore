@@ -1,4 +1,5 @@
 node_modules
+mochawesome-report
 cypress/downloads
 cypress/screenshots
 cypress/videos
@@ -6,3 +7,4 @@ cypress/logs
 .vscode
 .env
 jsconfig.json
+cypress.env.json
