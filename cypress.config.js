@@ -10,6 +10,7 @@ module.exports = defineConfig({
     },
     env: {
       baseUrl: "https://bookcart.azurewebsites.net/",
+      baseUrlFakeStore: "https://fakestoreapi.com"
     }
   },
 });
